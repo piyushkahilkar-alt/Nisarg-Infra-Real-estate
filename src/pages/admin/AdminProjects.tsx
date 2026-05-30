@@ -12,7 +12,7 @@ import {
 import { db } from "../../lib/firebase";
 import { Plus, Trash2, Edit, Loader2, Image as ImageIcon, Video, FileText, X } from "lucide-react";
 import toast from "react-hot-toast";
-import CloudinaryUploadWidget from "../../components/admin/CloudinaryUploadWidget";
+import MediaUploader from "../../components/admin/MediaUploader";
 
 export default function AdminProjects() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -191,10 +191,9 @@ export default function AdminProjects() {
                  <div className="border rounded-lg p-4 bg-gray-50">
                     <div className="flex justify-between items-center mb-3">
                        <span className="font-semibold text-sm flex items-center"><ImageIcon className="h-4 w-4 mr-2" /> Images</span>
-                       <CloudinaryUploadWidget 
+                       <MediaUploader 
                          resourceType="image"
                          multiple={true}
-                         folder="projects/images"
                          onSuccess={(url) => setImages(prev => [...prev, url])}
                          buttonText={<span className="text-xs bg-gray-200 px-2 py-1 rounded cursor-pointer hover:bg-gray-300">Add Image</span>}
                        />
@@ -216,10 +215,9 @@ export default function AdminProjects() {
                  <div className="border rounded-lg p-4 bg-gray-50">
                     <div className="flex justify-between items-center mb-3">
                        <span className="font-semibold text-sm flex items-center"><Video className="h-4 w-4 mr-2" /> Videos</span>
-                       <CloudinaryUploadWidget 
+                       <MediaUploader 
                          resourceType="video"
                          multiple={true}
-                         folder="projects/videos"
                          onSuccess={(url) => setVideos(prev => [...prev, url])}
                          buttonText={<span className="text-xs bg-gray-200 px-2 py-1 rounded cursor-pointer hover:bg-gray-300">Add Video</span>}
                        />
@@ -241,9 +239,8 @@ export default function AdminProjects() {
                  <div className="border rounded-lg p-4 bg-gray-50">
                     <div className="flex justify-between items-center mb-3">
                        <span className="font-semibold text-sm flex items-center"><FileText className="h-4 w-4 mr-2" /> Brochure</span>
-                       <CloudinaryUploadWidget 
+                       <MediaUploader 
                          resourceType="raw"
-                         folder="projects/brochures"
                          onSuccess={(url) => setBrochurePdf(url)}
                          buttonText={<span className="text-xs bg-gray-200 px-2 py-1 rounded cursor-pointer hover:bg-gray-300">{brochurePdf ? 'Replace' : 'Upload PDF'}</span>}
                        />

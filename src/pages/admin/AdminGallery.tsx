@@ -11,7 +11,7 @@ import {
 import { db } from "../../lib/firebase";
 import { Trash2, Loader2, Image as ImageIcon, Video } from "lucide-react";
 import toast from "react-hot-toast";
-import CloudinaryUploadWidget from "../../components/admin/CloudinaryUploadWidget";
+import MediaUploader from "../../components/admin/MediaUploader";
 
 export default function AdminGallery() {
   const [media, setMedia] = useState<any[]>([]);
@@ -85,18 +85,16 @@ export default function AdminGallery() {
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold text-gray-900">Manage Gallery</h1>
         <div className="flex gap-4">
-          <CloudinaryUploadWidget 
+          <MediaUploader 
              resourceType="image"
              multiple={true}
-             folder="gallery/images"
              onSuccess={handleImageSuccess}
              buttonText={<span className="flex items-center text-sm font-medium"><ImageIcon className="h-4 w-4 mr-2" /> Upload Image</span>}
              className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-700"
           />
-          <CloudinaryUploadWidget 
+          <MediaUploader 
              resourceType="video"
              multiple={true}
-             folder="gallery/videos"
              onSuccess={handleVideoSuccess}
              buttonText={<span className="flex items-center text-sm font-medium"><Video className="h-4 w-4 mr-2" /> Upload Video</span>}
              className="bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-indigo-700"
