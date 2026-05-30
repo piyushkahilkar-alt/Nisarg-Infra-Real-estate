@@ -16,12 +16,12 @@ export default function AdminLogin() {
     e.preventDefault();
     setLoading(true);
     try {
-      if ((import.meta as any).env.VITE_FIREBASE_API_KEY === undefined || (import.meta as any).env.VITE_FIREBASE_API_KEY === "") {
-        toast.error("Firebase API Key is missing. Please add your credentials in Settings > Secrets to continue.");
-        setLoading(false);
-        return;
-      }
-      const userCredential = await signInWithEmailAndPassword(
+        if (!(import.meta as any).env.VITE_FIREBASE_API_KEY || (import.meta as any).env.VITE_FIREBASE_API_KEY.includes("Dummy")) {
+          toast.error("Firebase API Key is missing. Check your Vercel Environment Variables. They MUST start with VITE_ and you MUST trigger a Re-build.");
+          setLoading(false);
+          return;
+        }
+        const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password,
@@ -53,7 +53,9 @@ export default function AdminLogin() {
       }
     } catch (error: any) {
       console.error("Firebase Login Error:", error);
-      if (error.code === "auth/operation-not-allowed") {
+      if (error.code === "auth/invalid-api-key") {
+        toast.error("Invalid Firebase API Key. If you just added it to Vercel, youMUST REDEPLOY your project for changes to take effect.");
+      } else if (error.code === "auth/operation-not-allowed") {
         toast.error("Email/Password authentication is disabled in Firebase Console. Please enable it for your current Firebase project.");
       } else {
         toast.error(error.message || "Login failed");
