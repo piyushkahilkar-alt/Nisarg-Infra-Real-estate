@@ -16,6 +16,11 @@ export default function AdminLogin() {
     e.preventDefault();
     setLoading(true);
     try {
+      if ((import.meta as any).env.VITE_FIREBASE_API_KEY === undefined || (import.meta as any).env.VITE_FIREBASE_API_KEY === "") {
+        toast.error("Firebase API Key is missing. Please add your credentials in Settings > Secrets to continue.");
+        setLoading(false);
+        return;
+      }
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
@@ -47,8 +52,12 @@ export default function AdminLogin() {
         }
       }
     } catch (error: any) {
-      console.error(error);
-      toast.error(error.message || "Login failed");
+      console.error("Firebase Login Error:", error);
+      if (error.code === "auth/operation-not-allowed") {
+        toast.error("Email/Password authentication is disabled in Firebase Console. Please enable it for your current Firebase project.");
+      } else {
+        toast.error(error.message || "Login failed");
+      }
     } finally {
       setLoading(false);
     }
