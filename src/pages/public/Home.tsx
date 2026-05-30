@@ -67,11 +67,11 @@ export default function Home() {
             </p>
             
             <div className="flex flex-wrap gap-4">
-              <a href="tel:+910000000000" className="bg-[#1E293B] text-white px-8 py-4 rounded-xl font-bold text-[15px] flex items-center justify-center hover:bg-[#0F172A] transition-all shadow-lg hover:shadow-xl">
+              <a href="tel:7020785308" className="bg-[#1E293B] text-white px-8 py-4 rounded-xl font-bold text-[15px] flex items-center justify-center hover:bg-[#0F172A] transition-all shadow-lg hover:shadow-xl">
                 <PhoneCall className="h-5 w-5 mr-2" />
                 Call Now
               </a>
-              <a href="https://wa.me/910000000000" target="_blank" rel="noreferrer" className="bg-[#25D366] text-white px-8 py-4 rounded-xl font-bold text-[15px] flex items-center justify-center hover:bg-[#128C7E] transition-all shadow-lg hover:shadow-xl">
+              <a href="https://wa.me/917020785308?text=Hello Nisarg Infra Realties, I am interested in your real estate projects. Please share more details." target="_blank" rel="noreferrer" className="bg-[#25D366] text-white px-8 py-4 rounded-xl font-bold text-[15px] flex items-center justify-center hover:bg-[#128C7E] transition-all shadow-lg hover:shadow-xl">
                 <MessageCircle className="h-5 w-5 mr-2" />
                 WhatsApp
               </a>
@@ -98,6 +98,10 @@ export default function Home() {
                   <div>
                     <label className="block text-[11px] font-bold text-[#94A3B8] uppercase mb-1">Full Name</label>
                     <input required type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full px-4 py-3 bg-[#FAFAF7] border border-[#E2E8F0] rounded-xl focus:ring-2 focus:ring-[#137A35] focus:border-transparent outline-none text-[14px] font-medium" placeholder="Enter full name" />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold text-[#94A3B8] uppercase mb-1">Email Address</label>
+                    <input required type="email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="w-full px-4 py-3 bg-[#FAFAF7] border border-[#E2E8F0] rounded-xl focus:ring-2 focus:ring-[#137A35] focus:border-transparent outline-none text-[14px] font-medium" placeholder="your@email.com" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
@@ -217,17 +221,39 @@ export default function Home() {
             <div className="h-1 w-20 bg-[#137A35] mx-auto mb-6 rounded-full"></div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((_, i) => (
+            {[
+              {
+                name: "Rahul Sharma",
+                role: "Investor",
+                text: "Investing in Nisarg Infra was the best decision for our family. The balance of nature and modern amenities is unmatched, and the team is incredibly professional.",
+                image: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=200"
+              },
+              {
+                 name: "Priya Patel",
+                 role: "Homeowner",
+                 text: "The buying process was incredibly smooth. They delivered exactly what they promised—a beautiful eco-friendly plot in a prime location. Highly recommended!",
+                 image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200"
+              },
+              {
+                 name: "Vikram Singh",
+                 role: "Real Estate Analyst",
+                 text: "I've seen many developments, but Nisarg Infra's commitment to sustainable infrastructure stands out. The ROI on these properties is exceptionally strong.",
+                 image: "https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&q=80&w=200"
+              }
+            ].map((testimonial, i) => (
                <div key={i} className="bg-white p-8 rounded-2xl shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] border border-[#E2E8F0]">
                  <div className="flex text-[#D97706] mb-4">
                    {[...Array(5)].map((_, j) => <Star key={j} className="h-5 w-5 fill-current" />)}
                  </div>
-                 <p className="text-[#64748B] italic mb-6">"Investing in Nisarg Infra was the best decision for our family. The balance of nature and modern amenities is unmatched, and the team is incredibly professional."</p>
+                 <p className="text-[#64748B] italic mb-6">"{testimonial.text}"</p>
                  <div className="flex items-center gap-4 border-t border-[#E2E8F0] pt-4">
-                   <div className="h-10 w-10 bg-[#CBD5E1] rounded-full"></div>
+                   <div 
+                     className="h-10 w-10 bg-[#CBD5E1] rounded-full"
+                     style={{ backgroundImage: `url(${testimonial.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                   ></div>
                    <div>
-                     <h4 className="font-bold text-[#1E293B] text-sm">Rahul Sharma</h4>
-                     <p className="text-xs text-[#64748B]">Investor</p>
+                     <h4 className="font-bold text-[#1E293B] text-sm">{testimonial.name}</h4>
+                     <p className="text-xs text-[#64748B]">{testimonial.role}</p>
                    </div>
                  </div>
                </div>

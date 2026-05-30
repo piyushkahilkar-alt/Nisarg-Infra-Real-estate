@@ -23,7 +23,7 @@ export default function FloatingActions() {
 
         {/* Call Now Button */}
         <a 
-          href="tel:+910000000000"
+          href="tel:7020785308"
           className="group flex items-center justify-center w-14 h-14 bg-[#137A35] hover:bg-[#29A53A] text-white rounded-full shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative"
           title="Call Now"
         >
@@ -35,7 +35,7 @@ export default function FloatingActions() {
 
         {/* WhatsApp Button */}
         <a 
-          href="https://wa.me/910000000000?text=Hi, I would like to know more about your projects."
+          href="https://wa.me/917020785308?text=Hello Nisarg Infra Realties, I am interested in your real estate projects. Please share more details."
           target="_blank"
           rel="noreferrer"
           className="group flex items-center justify-center w-14 h-14 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-full shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative"

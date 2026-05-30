@@ -17,7 +17,7 @@ export default function Contact() {
                <Phone className="h-6 w-6 text-[#137A35]" />
              </div>
              <h3 className="font-bold text-[#1E293B] mb-2">Call Us</h3>
-             <a href="tel:+910000000000" className="text-[#64748B] hover:text-[#137A35]">+91 00000 00000</a>
+             <a href="tel:7020785308" className="text-[#64748B] hover:text-[#137A35]">7020785308</a>
            </div>
 
            <div className="p-8 bg-[#FAFAF7] rounded-2xl border border-[#E2E8F0] shadow-sm flex flex-col items-center text-center">
@@ -25,7 +25,7 @@ export default function Contact() {
                <Mail className="h-6 w-6 text-[#137A35]" />
              </div>
              <h3 className="font-bold text-[#1E293B] mb-2">Email Us</h3>
-             <a href="mailto:info@nisarginfra.com" className="text-[#64748B] hover:text-[#137A35]">info@nisarginfra.com</a>
+             <a href="mailto:pravinnagdive@gmail.com" className="text-[#64748B] hover:text-[#137A35]">pravinnagdive@gmail.com</a>
            </div>
 
            <div className="p-8 bg-[#FAFAF7] rounded-2xl border border-[#E2E8F0] shadow-sm flex flex-col items-center text-center">

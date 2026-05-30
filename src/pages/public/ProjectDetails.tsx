@@ -220,10 +220,10 @@ export default function ProjectDetails() {
                       Download Brochure
                     </a>
                   )}
-                  <a href="tel:+910000000000" className="flex items-center justify-center gap-2 bg-[#1E293B] text-white py-3 rounded-xl text-sm font-bold hover:bg-[#334155] transition-colors">
+                  <a href="tel:7020785308" className="flex items-center justify-center gap-2 bg-[#1E293B] text-white py-3 rounded-xl text-sm font-bold hover:bg-[#334155] transition-colors">
                      Call Now
                   </a>
-                  <a href={`https://wa.me/910000000000?text=Hi, I am interested in ${project.title}`} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 bg-[#25D366] text-white py-3 rounded-xl text-sm font-bold hover:bg-[#128C7E] transition-colors">
+                  <a href={`https://wa.me/917020785308?text=Hello Nisarg Infra Realties, I am interested in your real estate projects. Please share more details.`} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 bg-[#25D366] text-white py-3 rounded-xl text-sm font-bold hover:bg-[#128C7E] transition-colors">
                      WhatsApp
                   </a>
                 </div>

@@ -20,7 +20,7 @@ export default function Navbar() {
             <Link to="/blog" className={`text-[14px] font-medium transition-colors ${isActive('/blog') ? 'text-[#137A35]' : 'text-[#64748B] hover:text-[#137A35]'}`}>Blog</Link>
           </div>
           <div className="hidden md:flex items-center">
-            <a href="tel:+910000000000" className="bg-[#E85B10] text-white px-6 py-3 rounded-md font-semibold text-[14px] cursor-pointer transition-colors hover:bg-opacity-90">
+            <a href="tel:7020785308" className="bg-[#E85B10] text-white px-6 py-3 rounded-md font-semibold text-[14px] cursor-pointer transition-colors hover:bg-opacity-90">
               Call Now
             </a>
           </div>

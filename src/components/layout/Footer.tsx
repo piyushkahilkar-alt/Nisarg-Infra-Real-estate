@@ -40,11 +40,11 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3 text-sm text-[#64748B]">
                 <Phone className="h-5 w-5 text-[#E85B10] shrink-0" />
-                <a href="tel:+910000000000" className="hover:text-[#137A35] transition-colors">+91 00000 00000</a>
+                <a href="tel:7020785308" className="hover:text-[#137A35] transition-colors">+91 7020785308</a>
               </li>
               <li className="flex items-center gap-3 text-sm text-[#64748B]">
                 <Mail className="h-5 w-5 text-[#E85B10] shrink-0" />
-                <a href="mailto:info@nisarginfra.com" className="hover:text-[#137A35] transition-colors">info@nisarginfra.com</a>
+                <a href="mailto:pravinnagdive@gmail.com" className="hover:text-[#137A35] transition-colors">pravinnagdive@gmail.com</a>
               </li>
             </ul>
           </div>

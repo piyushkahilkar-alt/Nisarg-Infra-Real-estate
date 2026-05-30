@@ -65,7 +65,7 @@ export default function QuickEnquiryModal({ isOpen, onClose, projectInterested =
             </div>
             <div>
               <label className="block text-xs font-bold text-[#64748B] uppercase mb-1">Contact Number *</label>
-              <input required type="tel" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full border border-[#E2E8F0] rounded-lg px-4 py-2.5 outline-none focus:border-[#137A35] transition-colors bg-[#FAFAF7]" placeholder="+91 0000000000" />
+              <input required type="tel" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full border border-[#E2E8F0] rounded-lg px-4 py-2.5 outline-none focus:border-[#137A35] transition-colors bg-[#FAFAF7]" placeholder="+91 9876543210" />
             </div>
           </div>
           
