@@ -1,0 +1,48 @@
+export interface Project {
+  id: string;
+  title: string;
+  location: string;
+  price: string;
+  status: string;
+  description: string;
+  imageURL: string;
+  brochureURL: string;
+  videoURL: string;
+}
+
+// Replace this URL with your deployed Google Apps Script Web App URL
+export const GOOGLE_APPS_SCRIPT_URL = import.meta.env.VITE_GOOGLE_SHEETS_URL || 'https://script.google.com/macros/s/AKfycbznmt2AWz__0dl6-bTlTJaZ79rmxaRone2NSXUaNaPqqudx7EZd8Si_oRhPfW304ZY/exec';
+
+export const fetchProjects = async (): Promise<Project[]> => {
+  if (!GOOGLE_APPS_SCRIPT_URL) {
+    throw new Error('Google Apps Script URL is not configured. Please add VITE_GOOGLE_SHEETS_URL to your environment variables.');
+  }
+
+  const response = await fetch(GOOGLE_APPS_SCRIPT_URL);
+  if (!response.ok) {
+    throw new Error('Failed to fetch projects');
+  }
+
+  const data = await response.json();
+  
+  if (!data.status || data.status !== 'success') {
+    throw new Error('Invalid response from Google Sheets');
+  }
+
+  return data.data.map((item: any, index: number) => ({
+    id: item.id || `project-${index}`,
+    title: item.Title || '',
+    location: item.Location || '',
+    price: item.Price || '',
+    status: item.Status || 'Ongoing',
+    description: item.Description || '',
+    imageURL: item.ImageURL || '',
+    brochureURL: item.BrochureURL || '',
+    videoURL: item.VideoURL || ''
+  }));
+};
+
+export const fetchProjectById = async (id: string): Promise<Project | null> => {
+  const projects = await fetchProjects();
+  return projects.find(p => p.id === id) || null;
+};

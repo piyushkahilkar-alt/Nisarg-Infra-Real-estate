@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { doc, getDoc, addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
+import { fetchProjectById, Project } from '../../lib/projectsService';
 import toast from 'react-hot-toast';
-import { MapPin, CheckCircle2, FileText, Download, Loader2 } from 'lucide-react';
+import { MapPin, Download, Loader2 } from 'lucide-react';
 
 export default function ProjectDetails() {
   const { id } = useParams();
-  const [project, setProject] = useState<any>(null);
+  const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -19,22 +21,23 @@ export default function ProjectDetails() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    const fetchProject = async () => {
+    const loadProject = async () => {
       try {
         if (!id) return;
-        const docRef = doc(db, 'projects', id);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setProject({ id: docSnap.id, ...docSnap.data() });
+        const data = await fetchProjectById(id);
+        if (data) {
+          setProject(data);
+        } else {
+          setError("Project not found");
         }
-      } catch (error) {
-        console.error(error);
-        toast.error("Failed to load project details");
+      } catch (err: any) {
+        console.error(err);
+        setError(err.message || 'Failed to load project details');
       } finally {
         setLoading(false);
       }
     };
-    fetchProject();
+    loadProject();
   }, [id]);
 
   const handleInquirySubmit = async (e: React.FormEvent) => {
@@ -61,8 +64,8 @@ export default function ProjectDetails() {
      return <div className="min-h-[60vh] flex items-center justify-center"><Loader2 className="h-10 w-10 text-[#137A35] animate-spin" /></div>;
   }
 
-  if (!project) {
-     return <div className="py-20 text-center text-xl text-gray-500">Project not found</div>;
+  if (error || !project) {
+     return <div className="py-20 text-center text-xl text-gray-500">{error || "Project not found"}</div>;
   }
 
   return (
@@ -70,7 +73,7 @@ export default function ProjectDetails() {
       {/* Hero Image */}
       <div className="h-[50vh] w-full relative bg-[#1E293B]">
          <img 
-            src={project.images?.[0] || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'} 
+            src={project.imageURL || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'} 
             alt={project.title} 
             className="w-full h-full object-cover brightness-[0.7]"
          />
@@ -93,63 +96,20 @@ export default function ProjectDetails() {
           <div className="lg:col-span-2 space-y-10">
             <section className="bg-white p-8 rounded-2xl border border-[#E2E8F0] shadow-sm">
               <h2 className="text-2xl font-extrabold text-[#1E293B] mb-6">About the Project</h2>
-              <div className="prose prose-lg text-[#64748B] max-w-none leading-relaxed">
+              <div className="prose prose-lg text-[#64748B] max-w-none leading-relaxed whitespace-pre-line">
                 {project.description}
               </div>
             </section>
 
-            {project.amenities?.length > 0 && (
-              <section className="bg-white p-8 rounded-2xl border border-[#E2E8F0] shadow-sm">
-                 <h2 className="text-2xl font-extrabold text-[#1E293B] mb-6">Amenities</h2>
-                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                   {project.amenities.map((amenity: string, i: number) => (
-                     <div key={i} className="flex items-center bg-[#FAFAF7] p-4 rounded-xl border border-[#E2E8F0]">
-                       <CheckCircle2 className="h-5 w-5 text-[#29A53A] mr-3 shrink-0" />
-                       <span className="text-[#1E293B] font-medium text-sm">{amenity}</span>
-                     </div>
-                   ))}
-                 </div>
-              </section>
-            )}
-
-            {project.reraNumber && (
-              <section className="bg-white p-8 rounded-2xl border border-[#E2E8F0] shadow-sm flex items-center">
-                <div className="h-14 w-14 bg-[#EBF5ED] rounded-xl flex items-center justify-center mr-6 shrink-0">
-                  <FileText className="h-7 w-7 text-[#137A35]" />
-                </div>
-                <div>
-                  <h3 className="text-xs text-[#94A3B8] font-bold uppercase tracking-wider mb-1">RERA Registration Number</h3>
-                  <p className="text-xl font-extrabold text-[#1E293B]">{project.reraNumber}</p>
-                </div>
-              </section>
-            )}
-            
-            {/* Gallery Slider */}
-            {project.images?.length > 1 && (
+            {project.videoURL && (
                <section className="bg-white p-8 rounded-2xl border border-[#E2E8F0] shadow-sm">
-                 <h2 className="text-2xl font-extrabold text-[#1E293B] mb-6">Gallery Images</h2>
-                 <div className="flex overflow-x-auto gap-4 pb-4 snap-x">
-                   {project.images.slice(1).map((imgUrl: string, i: number) => (
-                      <img key={i} src={imgUrl} alt="Gallery" className="w-[80%] md:w-[400px] h-64 object-cover rounded-xl shrink-0 snap-center border border-[#E2E8F0]" />
-                   ))}
-                 </div>
-               </section>
-            )}
-
-            {/* Video Section */}
-            {project.videos?.length > 0 && (
-               <section className="bg-white p-8 rounded-2xl border border-[#E2E8F0] shadow-sm">
-                 <h2 className="text-2xl font-extrabold text-[#1E293B] mb-6">Project Videos</h2>
-                 <div className="grid grid-cols-1 gap-6">
-                   {project.videos.map((vidUrl: string, i: number) => (
-                      <div key={i} className="w-full h-80 bg-black rounded-xl overflow-hidden relative">
-                         <video 
-                           src={vidUrl} 
-                           controls 
-                           className="absolute inset-0 w-full h-full object-contain"
-                         />
-                      </div>
-                   ))}
+                 <h2 className="text-2xl font-extrabold text-[#1E293B] mb-6">Project Video</h2>
+                 <div className="w-full h-80 lg:h-[450px] bg-black rounded-xl overflow-hidden relative">
+                    <video 
+                      src={project.videoURL} 
+                      controls 
+                      className="absolute inset-0 w-full h-full object-contain"
+                    />
                  </div>
                </section>
             )}
@@ -214,8 +174,8 @@ export default function ProjectDetails() {
                 </form>
 
                 <div className="grid grid-cols-2 gap-4">
-                  {project.brochurePdf && (
-                    <a href={project.brochurePdf} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 border border-[#E2E8F0] bg-white py-3 rounded-xl text-sm font-bold text-[#1E293B] hover:bg-gray-50 transition-colors col-span-2">
+                  {project.brochureURL && (
+                    <a href={project.brochureURL} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 border border-[#E2E8F0] bg-white py-3 rounded-xl text-sm font-bold text-[#1E293B] hover:bg-gray-50 transition-colors col-span-2">
                       <Download className="h-4 w-4" />
                       Download Brochure
                     </a>
