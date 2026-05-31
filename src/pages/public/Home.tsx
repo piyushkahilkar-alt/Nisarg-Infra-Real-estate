@@ -24,6 +24,7 @@ export default function Home() {
         status: 'New Lead',
         createdAt: new Date().toISOString()
       });
+      (window as any).gtag?.('event', 'contact_submit', { form_type: 'home_enquiry' });
       toast.success("Enquiry submitted successfully! We will contact you soon.");
       setFormData({ name: '', phone: '', email: '', budget: '', location: '' });
     } catch(err) {
@@ -69,14 +70,14 @@ export default function Home() {
             </p>
             
             <div className="flex flex-wrap gap-4">
-              <Link to="/projects" className="bg-[#137A35] text-white border-2 border-[#137A35] px-8 py-4 rounded-xl font-bold text-[15px] flex items-center justify-center hover:bg-[#29A53A] transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+              <Link to="/projects" onClick={() => (window as any).gtag?.('event', 'view_project', { location: 'home_hero' })} className="bg-[#137A35] text-white border-2 border-[#137A35] px-8 py-4 rounded-xl font-bold text-[15px] flex items-center justify-center hover:bg-[#29A53A] transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
                 View Projects
               </Link>
-              <a href="tel:7020785308" className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-xl font-bold text-[15px] flex items-center justify-center hover:bg-white/20 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+              <a href="tel:7020785308" onClick={() => (window as any).gtag?.('event', 'call_click', { action: 'book_site_visit', location: 'home_hero' })} className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-xl font-bold text-[15px] flex items-center justify-center hover:bg-white/20 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
                 <Calendar className="h-5 w-5 mr-2" />
                 Book Site Visit
               </a>
-              <a href="https://wa.me/917020785308?text=Hello Nisarg Infra Realties, I would like to book a site visit." target="_blank" rel="noreferrer" className="bg-[#25D366] text-white px-8 py-4 rounded-xl font-bold text-[15px] flex items-center justify-center hover:bg-[#128C7E] transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+              <a href="https://wa.me/917020785308?text=Hello Nisarg Infra Realties, I would like to book a site visit." onClick={() => (window as any).gtag?.('event', 'whatsapp_click', { location: 'home_hero' })} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white px-8 py-4 rounded-xl font-bold text-[15px] flex items-center justify-center hover:bg-[#128C7E] transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
                 <MessageCircle className="h-5 w-5 mr-2" />
                 WhatsApp Now
               </a>

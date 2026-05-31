@@ -139,6 +139,7 @@ export default function ProjectDetails() {
         status: 'New Lead',
         createdAt: new Date().toISOString()
       });
+      (window as any).gtag?.('event', 'contact_submit', { form_type: 'project_inquiry', project_id: project?.id });
       toast.success("Inquiry submitted successfully!");
       setFormData({ name: '', phone: '', email: '', message: '' });
     } catch (error) {
@@ -390,17 +391,17 @@ export default function ProjectDetails() {
 
                   <div className="grid grid-cols-1 gap-4 border-t border-[#E2E8F0] pt-8">
                     {project.brochureURL && (
-                      <a href={project.brochureURL} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 border-2 border-[#1E293B] bg-white py-3.5 rounded-xl text-[15px] font-bold text-[#1E293B] hover:bg-[#1E293B] hover:text-white transition-all">
+                      <a href={project.brochureURL} onClick={() => (window as any).gtag?.('event', 'brochure_download', { project_id: project.id })} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 border-2 border-[#1E293B] bg-white py-3.5 rounded-xl text-[15px] font-bold text-[#1E293B] hover:bg-[#1E293B] hover:text-white transition-all">
                         <Download className="h-5 w-5" />
                         Download PDF Brochure
                       </a>
                     )}
                     <div className="grid grid-cols-2 gap-3">
-                      <a href="tel:7020785308" className="flex items-center justify-center gap-2 bg-[#F1F5F9] text-[#1E293B] py-3.5 rounded-xl text-[15px] font-bold hover:bg-[#E2E8F0] transition-colors border border-[#E2E8F0]">
+                      <a href="tel:7020785308" onClick={() => (window as any).gtag?.('event', 'call_click', { location: 'project_details', project_id: project.id })} className="flex items-center justify-center gap-2 bg-[#F1F5F9] text-[#1E293B] py-3.5 rounded-xl text-[15px] font-bold hover:bg-[#E2E8F0] transition-colors border border-[#E2E8F0]">
                          <Phone className="h-4 w-4" />
                          Call Now
                       </a>
-                      <a href={`https://wa.me/917020785308?text=Hello Nisarg Infra Realties, I am interested in ${project.title}. Please share more details.`} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 bg-[#25D366] text-white py-3.5 rounded-xl text-[15px] font-bold hover:bg-[#128C7E] transition-colors shadow-md">
+                      <a href={`https://wa.me/917020785308?text=Hello Nisarg Infra Realties, I am interested in ${project.title}. Please share more details.`} onClick={() => (window as any).gtag?.('event', 'whatsapp_click', { location: 'project_details', project_id: project.id })} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 bg-[#25D366] text-white py-3.5 rounded-xl text-[15px] font-bold hover:bg-[#128C7E] transition-colors shadow-md">
                          <MessageCircle className="h-4 w-4" />
                          WhatsApp
                       </a>

@@ -23,7 +23,7 @@ export default function Navbar() {
             <Link to="/contact" className={`text-[14px] font-medium transition-colors ${isActive('/contact') ? 'text-[#137A35]' : 'text-[#64748B] hover:text-[#137A35]'}`}>Contact</Link>
           </div>
           <div className="hidden md:flex items-center">
-            <a href="tel:7020785308" className="bg-[#E85B10] text-white px-6 py-3 rounded-md font-semibold text-[14px] cursor-pointer transition-colors hover:bg-opacity-90">
+            <a href="tel:7020785308" onClick={() => (window as any).gtag?.('event', 'call_click', { location: 'navbar_desktop' })} className="bg-[#E85B10] text-white px-6 py-3 rounded-md font-semibold text-[14px] cursor-pointer transition-colors hover:bg-opacity-90">
               Call Now
             </a>
           </div>
@@ -53,7 +53,7 @@ export default function Navbar() {
               <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className={`block px-3 py-2 rounded-md text-base font-medium ${isActive('/about') ? 'text-[#137A35] bg-[#E8F5E9]' : 'text-[#1E293B] hover:bg-gray-50'}`}>About Us</Link>
               <Link to="/reviews" onClick={() => setIsMobileMenuOpen(false)} className={`block px-3 py-2 rounded-md text-base font-medium ${isActive('/reviews') ? 'text-[#137A35] bg-[#E8F5E9]' : 'text-[#1E293B] hover:bg-gray-50'}`}>Reviews</Link>
               <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className={`block px-3 py-2 rounded-md text-base font-medium ${isActive('/contact') ? 'text-[#137A35] bg-[#E8F5E9]' : 'text-[#1E293B] hover:bg-gray-50'}`}>Contact</Link>
-              <a href="tel:7020785308" className="mt-4 block w-full text-center bg-[#E85B10] text-white px-6 py-3 rounded-md font-bold text-base cursor-pointer hover:bg-opacity-90">
+              <a href="tel:7020785308" onClick={() => (window as any).gtag?.('event', 'call_click', { location: 'navbar_mobile' })} className="mt-4 block w-full text-center bg-[#E85B10] text-white px-6 py-3 rounded-md font-bold text-base cursor-pointer hover:bg-opacity-90">
                 Call Now
               </a>
             </div>

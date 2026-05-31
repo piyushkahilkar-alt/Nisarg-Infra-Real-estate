@@ -33,6 +33,7 @@ export default function QuickEnquiryModal({ isOpen, onClose, projectInterested =
         status: 'New Lead',
         createdAt: new Date().toISOString()
       });
+      (window as any).gtag?.('event', 'contact_submit', { form_type: 'quick_enquiry' });
       toast.success("Enquiry submitted successfully! We will contact you soon.");
       setFormData({ name: '', email: '', phone: '', budget: '', location: '', message: '' });
       onClose();

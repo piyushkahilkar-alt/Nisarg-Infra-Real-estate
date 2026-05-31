@@ -45,11 +45,11 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <Phone className="h-5 w-5 text-[#29A53A] shrink-0" />
-                <a href="tel:7020785308" className="hover:text-white transition-colors text-[#CBD5E1]">+91 7020785308</a>
+                <a href="tel:7020785308" onClick={() => (window as any).gtag?.('event', 'call_click', { location: 'footer' })} className="hover:text-white transition-colors text-[#CBD5E1]">+91 7020785308</a>
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <MessageCircle className="h-5 w-5 text-[#25D366] shrink-0" />
-                <a href="https://wa.me/917020785308" className="hover:text-white transition-colors text-[#CBD5E1]">WhatsApp Us</a>
+                <a href="https://wa.me/917020785308" onClick={() => (window as any).gtag?.('event', 'whatsapp_click', { location: 'footer' })} className="hover:text-white transition-colors text-[#CBD5E1]">WhatsApp Us</a>
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <Mail className="h-5 w-5 text-[#E85B10] shrink-0" />

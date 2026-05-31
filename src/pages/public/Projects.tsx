@@ -348,11 +348,11 @@ export default function Projects() {
                   <p className="text-[#137A35] font-black text-2xl mb-6">{project.price}</p>
                   
                   <div className="mt-auto flex flex-col gap-3">
-                    <Link to={`/projects/${project.id}`} className="w-full bg-[#FAFAF7] hover:bg-[#137A35] text-[#1E293B] hover:text-white border border-[#E2E8F0] hover:border-[#137A35] rounded-xl py-3 flex items-center justify-center font-bold text-sm transition-all duration-300">
+                    <Link to={`/projects/${project.id}`} onClick={() => (window as any).gtag?.('event', 'view_project', { location: 'projects_list', project_id: project.id })} className="w-full bg-[#FAFAF7] hover:bg-[#137A35] text-[#1E293B] hover:text-white border border-[#E2E8F0] hover:border-[#137A35] rounded-xl py-3 flex items-center justify-center font-bold text-sm transition-all duration-300">
                       View full details
                     </Link>
                     <div className="grid grid-cols-2 gap-3">
-                       <a href={`https://wa.me/917020785308?text=Hello, I am interested in ${project.title}.`} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white rounded-xl py-3 flex items-center justify-center font-bold text-sm hover:bg-[#128C7E] transition-colors">
+                       <a href={`https://wa.me/917020785308?text=Hello, I am interested in ${project.title}.`} onClick={() => (window as any).gtag?.('event', 'whatsapp_click', { location: 'projects_list', project_id: project.id })} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white rounded-xl py-3 flex items-center justify-center font-bold text-sm hover:bg-[#128C7E] transition-colors">
                           <MessageCircle className="w-4 h-4 mr-1.5" />
                           WhatsApp
                        </a>
@@ -433,7 +433,7 @@ export default function Projects() {
                                </div>
                             </div>
                             
-                            <Link to={`/projects/${project.id}`} className="mt-8 bg-[#1E293B] text-white font-bold py-3 rounded-xl hover:bg-[#334155] transition-colors text-center shadow-md">
+                            <Link to={`/projects/${project.id}`} onClick={() => (window as any).gtag?.('event', 'view_project', { location: 'compare_modal', project_id: project.id })} className="mt-8 bg-[#1E293B] text-white font-bold py-3 rounded-xl hover:bg-[#334155] transition-colors text-center shadow-md">
                                View Full Details
                             </Link>
                          </div>

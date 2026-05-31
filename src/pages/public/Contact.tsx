@@ -12,6 +12,7 @@ export default function Contact() {
     // Simulate API call
     setTimeout(() => {
       setSubmitting(false);
+      (window as any).gtag?.('event', 'contact_submit', { form_type: 'contact_page' });
       toast.success("Message sent successfully. We will get back to you shortly.");
       const form = e.target as HTMLFormElement;
       form.reset();
@@ -45,7 +46,7 @@ export default function Contact() {
                     <Phone className="w-8 h-8 text-[#1E293B] group-hover:text-[#137A35] transition-colors" />
                  </div>
                  <h3 className="text-lg font-bold text-[#1E293B] mb-2 uppercase tracking-wide">Call Center</h3>
-                 <a href="tel:7020785308" className="text-xl font-extrabold text-[#137A35] hover:text-[#E85B10] transition-colors">+91 7020785308</a>
+                 <a href="tel:7020785308" onClick={() => (window as any).gtag?.('event', 'call_click', { location: 'contact_cards' })} className="text-xl font-extrabold text-[#137A35] hover:text-[#E85B10] transition-colors">+91 7020785308</a>
                  <p className="text-sm text-[#94A3B8] mt-2">Mon-Sat, 10am to 7pm</p>
               </div>
 
@@ -72,7 +73,7 @@ export default function Contact() {
                     <a href="https://www.facebook.com/Nagp2?rdid=2dtCj9OEo2HTRqfX&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F18eE4bU8Ew%2F#" target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#334155] rounded-full flex items-center justify-center text-white hover:bg-[#137A35] hover:scale-110 transition-all"><Facebook className="w-5 h-5" /></a>
                     <a href="https://www.instagram.com/np_infra?igsh=MTJod3Vwd3drd3Rpdg%3D%3D" target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#334155] rounded-full flex items-center justify-center text-white hover:bg-[#E85B10] hover:scale-110 transition-all"><Instagram className="w-5 h-5" /></a>
                     <a href="#" className="w-12 h-12 bg-[#334155] rounded-full flex items-center justify-center text-white hover:bg-[#29A53A] hover:scale-110 transition-all"><Linkedin className="w-5 h-5" /></a>
-                    <a href="https://wa.me/917020785308" target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#334155] rounded-full flex items-center justify-center text-white hover:bg-[#25D366] hover:scale-110 transition-all"><MessageCircle className="w-5 h-5" /></a>
+                    <a href="https://wa.me/917020785308" onClick={() => (window as any).gtag?.('event', 'whatsapp_click', { location: 'contact_socials' })} target="_blank" rel="noreferrer" className="w-12 h-12 bg-[#334155] rounded-full flex items-center justify-center text-white hover:bg-[#25D366] hover:scale-110 transition-all"><MessageCircle className="w-5 h-5" /></a>
                  </div>
               </div>
            </motion.div>
