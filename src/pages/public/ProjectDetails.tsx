@@ -7,6 +7,8 @@ import toast from 'react-hot-toast';
 import { MapPin, Download, Loader2, Phone, MessageCircle, ArrowLeft, ChevronLeft, ChevronRight, CheckCircle2, Map, Play, Maximize } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
+import { ProjectTimeline } from '../../components/ui/ProjectTimeline';
+
 const GallerySlider = ({ items }: { items: {type: 'video'|'image', url: string}[] }) => {
   const [index, setIndex] = useState(0);
 
@@ -267,6 +269,18 @@ export default function ProjectDetails() {
                   <p className="text-sm font-bold text-[#94A3B8] uppercase tracking-wider mb-2">RERA Status</p>
                   <p className="text-2xl font-extrabold text-[#137A35]">Approved</p>
                </div>
+            </motion.section>
+
+            {/* Timeline component */}
+            <motion.section 
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
+              className="bg-white p-8 md:p-10 rounded-3xl border border-[#E2E8F0] shadow-sm hover:shadow-md transition-shadow"
+            >
+               <h2 className="text-2xl font-extrabold text-[#1E293B] mb-2 flex items-center">
+                 <span className="w-8 h-1 bg-[#137A35] rounded-full mr-4"></span>
+                 Project Progress
+               </h2>
+               <ProjectTimeline currentStageIndex={project.status?.toLowerCase().includes('complete') ? 4 : project.status?.toLowerCase().includes('planning') ? 0 : 2} />
             </motion.section>
 
             {/* Amenities (Mock Placeholder) */}
