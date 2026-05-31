@@ -15,10 +15,10 @@ import Home from "./pages/public/Home";
 import About from "./pages/public/About";
 import Projects from "./pages/public/Projects";
 import ProjectDetails from "./pages/public/ProjectDetails";
-import Gallery from "./pages/public/Gallery";
 import Blog from "./pages/public/Blog";
 import Contact from "./pages/public/Contact";
 import PrivacyPolicy from "./pages/public/PrivacyPolicy";
+import Reviews from "./pages/public/Reviews";
 
 export default function App() {
   return (
@@ -31,9 +31,9 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:id" element={<ProjectDetails />} />
-          <Route path="/gallery" element={<Gallery />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/reviews" element={<Reviews />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         </Route>
 

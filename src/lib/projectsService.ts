@@ -8,14 +8,24 @@ export interface Project {
   imageURL: string;
   brochureURL: string;
   videoURL: string;
+  area: string;
 }
 
 // Replace this URL with your deployed Google Apps Script Web App URL
 export const GOOGLE_APPS_SCRIPT_URL = import.meta.env.VITE_GOOGLE_SHEETS_URL || 'https://script.google.com/macros/s/AKfycbznmt2AWz__0dl6-bTlTJaZ79rmxaRone2NSXUaNaPqqudx7EZd8Si_oRhPfW304ZY/exec';
 
+let cachedProjects: Project[] | null = null;
+let lastFetchTime = 0;
+const CACHE_DURATION = 1000 * 60 * 15; // 15 minutes cache
+
 export const fetchProjects = async (): Promise<Project[]> => {
   if (!GOOGLE_APPS_SCRIPT_URL) {
     throw new Error('Google Apps Script URL is not configured. Please add VITE_GOOGLE_SHEETS_URL to your environment variables.');
+  }
+
+  // Return cached data if valid
+  if (cachedProjects && (Date.now() - lastFetchTime < CACHE_DURATION)) {
+    return cachedProjects;
   }
 
   const response = await fetch(GOOGLE_APPS_SCRIPT_URL);
@@ -29,7 +39,7 @@ export const fetchProjects = async (): Promise<Project[]> => {
     throw new Error('Invalid response from Google Sheets');
   }
 
-  return data.data.map((item: any, index: number) => ({
+  const projects = data.data.map((item: any, index: number) => ({
     id: item.id || `project-${index}`,
     title: item.Title || '',
     location: item.Location || '',
@@ -38,8 +48,14 @@ export const fetchProjects = async (): Promise<Project[]> => {
     description: item.Description || '',
     imageURL: item.ImageURL || '',
     brochureURL: item.BrochureURL || '',
-    videoURL: item.VideoURL || ''
+    videoURL: item.VideoURL || '',
+    area: item.Area || '1000-5000 sq.ft'
   }));
+
+  cachedProjects = projects;
+  lastFetchTime = Date.now();
+  
+  return projects;
 };
 
 export const fetchProjectById = async (id: string): Promise<Project | null> => {
