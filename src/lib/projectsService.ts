@@ -9,6 +9,8 @@ export interface Project {
   brochureURL: string;
   videoURL: string;
   area: string;
+  latitude?: number;
+  longitude?: number;
 }
 
 // Replace this URL with your deployed Google Apps Script Web App URL
@@ -49,7 +51,9 @@ export const fetchProjects = async (): Promise<Project[]> => {
     imageURL: item.ImageURL || '',
     brochureURL: item.BrochureURL || '',
     videoURL: item.VideoURL || '',
-    area: item.Area || '1000-5000 sq.ft'
+    area: item.Area || '1000-5000 sq.ft',
+    latitude: item.Latitude ? parseFloat(item.Latitude) : undefined,
+    longitude: item.Longitude ? parseFloat(item.Longitude) : undefined
   }));
 
   cachedProjects = projects;

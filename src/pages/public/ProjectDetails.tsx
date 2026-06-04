@@ -8,6 +8,8 @@ import { MapPin, Download, Loader2, Phone, MessageCircle, ArrowLeft, ChevronLeft
 import { motion, AnimatePresence } from 'motion/react';
 
 import { ProjectTimeline } from '../../components/ui/ProjectTimeline';
+import { GoogleMapIntegration } from '../../components/ui/GoogleMapIntegration';
+import { DynamicAmenities } from '../../components/ui/DynamicAmenities';
 
 const GallerySlider = ({ items }: { items: {type: 'video'|'image', url: string}[] }) => {
   const [index, setIndex] = useState(0);
@@ -30,6 +32,7 @@ const GallerySlider = ({ items }: { items: {type: 'video'|'image', url: string}[
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               src={current.url} 
+              loading="lazy"
               className="w-full h-full object-contain"
               alt="Gallery item"
             />
@@ -71,7 +74,7 @@ const GallerySlider = ({ items }: { items: {type: 'video'|'image', url: string}[
                     <Play className="w-4 h-4 text-white" />
                   </div>
                 ) : (
-                  <img src={item.url} className="w-full h-full object-cover" alt="thumbnail" />
+                  <img src={item.url} loading="lazy" className="w-full h-full object-cover" alt="thumbnail" />
                 )}
               </button>
             ))}
@@ -290,16 +293,12 @@ export default function ProjectDetails() {
             >
                <h2 className="text-2xl font-extrabold text-[#1E293B] mb-8 flex items-center">
                  <span className="w-8 h-1 bg-[#137A35] rounded-full mr-4"></span>
-                 Premium Amenities
+                 Nearby Area Amenities
                </h2>
-               <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-                 {['Clubhouse', 'Swimming Pool', 'Landscaped Gardens', '24/7 Security', 'Childrens Play Area', 'Jogging Track', 'Concrete Roads', 'Underground Electrification', 'Sewage Treatment'].map((amenity, i) => (
-                   <div key={i} className="flex items-center bg-[#F8FAFC] p-4 rounded-2xl border border-[#F1F5F9] hover:border-[#137A35] transition-colors group">
-                     <CheckCircle2 className="h-6 w-6 text-[#29A53A] mr-3 shrink-0 group-hover:scale-110 transition-transform" />
-                     <span className="text-[#334155] font-bold text-[15px]">{amenity}</span>
-                   </div>
-                 ))}
-               </div>
+               <DynamicAmenities 
+                 locationText={project.location || 'Nagpur, Maharashtra'}
+                 coordinates={project.latitude && project.longitude ? { lat: project.latitude, lng: project.longitude } : undefined}
+               />
             </motion.section>
 
             {/* Gallery Section */}
@@ -333,7 +332,7 @@ export default function ProjectDetails() {
                </motion.section>
             )}
 
-            {/* Location Map Placeholder */}
+           {/* Location Map */}
             <motion.section 
                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
                className="bg-white p-8 md:p-10 rounded-3xl border border-[#E2E8F0] shadow-sm hover:shadow-md transition-shadow"
@@ -342,11 +341,11 @@ export default function ProjectDetails() {
                  <span className="w-8 h-1 bg-[#137A35] rounded-full mr-4"></span>
                  Location Map
                </h2>
-               <div className="w-full h-[400px] bg-[#E2E8F0] rounded-2xl flex flex-col items-center justify-center border-2 border-dashed border-[#CBD5E1]">
-                  <Map className="h-16 w-16 text-[#94A3B8] mb-4" />
-                  <p className="text-[#64748B] font-medium text-lg">Google Maps Integration Placeholder</p>
-                  <p className="text-sm text-[#94A3B8] mt-2">Will be updated with iframe or Maps API</p>
-               </div>
+               <GoogleMapIntegration 
+                 locationText={project.location || 'Nagpur, Maharashtra'} 
+                 title={project.title}
+                 coordinates={project.latitude && project.longitude ? { lat: project.latitude, lng: project.longitude } : undefined}
+               />
             </motion.section>
 
           </div>
