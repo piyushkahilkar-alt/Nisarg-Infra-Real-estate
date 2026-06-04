@@ -51,6 +51,7 @@ const ProjectMedia = ({ project }: { project: Project }) => {
             transition={{ duration: 0.5 }}
             src={project.imageURL ? project.imageURL.split(',')[0].trim() : defaultImage} 
             alt={project.title} 
+            loading="lazy"
             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
           />
         ) : (
@@ -401,7 +402,7 @@ export default function Projects() {
                       {compareProjects.map(project => (
                          <div key={project.id} className="flex flex-col">
                             <div className="h-48 rounded-2xl overflow-hidden mb-6 relative">
-                               <img src={project.imageURL ? project.imageURL.split(',')[0].trim() : 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80'} alt={project.title} className="w-full h-full object-cover" />
+                               <img src={project.imageURL ? project.imageURL.split(',')[0].trim() : 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80'} alt={project.title} loading="lazy" className="w-full h-full object-cover" />
                                <div className="absolute top-3 right-3 bg-[#E85B10] text-white text-[10px] uppercase font-bold px-2 py-1 rounded shadow-sm">
                                  {project.status || 'Ongoing'}
                                </div>

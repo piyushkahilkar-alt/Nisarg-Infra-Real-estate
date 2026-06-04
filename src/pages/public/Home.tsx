@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Building2, Trees, Leaf, Star, PhoneCall, MessageCircle, MapPin, Loader2, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -7,12 +7,18 @@ import { db } from '../../lib/firebase';
 import toast from 'react-hot-toast';
 
 import { AnimatedCounter } from '../../components/ui/AnimatedCounter';
+import { fetchProjects } from '../../lib/projectsService';
 
 export default function Home() {
   const [formData, setFormData] = useState({
     name: '', phone: '', email: '', budget: '', location: ''
   });
   const [submitting, setSubmitting] = useState(false);
+
+  // Prefetch projects in background for faster navigation to Projects tab
+  useEffect(() => {
+     fetchProjects().catch(e => console.error('Prefetch error:', e));
+  }, []);
 
   const handleEnquiry = async (e: React.FormEvent) => {
     e.preventDefault();

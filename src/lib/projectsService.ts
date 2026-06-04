@@ -25,10 +25,21 @@ export const fetchProjects = async (): Promise<Project[]> => {
     throw new Error('Google Apps Script URL is not configured. Please add VITE_GOOGLE_SHEETS_URL to your environment variables.');
   }
 
-  // Return cached data if valid
+  // Check memory cache first
   if (cachedProjects && (Date.now() - lastFetchTime < CACHE_DURATION)) {
     return cachedProjects;
   }
+
+  // Check sessionStorage next
+  try {
+    const sessionCache = sessionStorage.getItem('projectsData');
+    const sessionTime = sessionStorage.getItem('projectsFetchTime');
+    if (sessionCache && sessionTime && (Date.now() - parseInt(sessionTime) < CACHE_DURATION)) {
+       cachedProjects = JSON.parse(sessionCache);
+       lastFetchTime = parseInt(sessionTime);
+       return cachedProjects!;
+    }
+  } catch(e) {}
 
   const response = await fetch(GOOGLE_APPS_SCRIPT_URL);
   if (!response.ok) {
@@ -58,6 +69,11 @@ export const fetchProjects = async (): Promise<Project[]> => {
 
   cachedProjects = projects;
   lastFetchTime = Date.now();
+  
+  try {
+     sessionStorage.setItem('projectsData', JSON.stringify(projects));
+     sessionStorage.setItem('projectsFetchTime', lastFetchTime.toString());
+  } catch(e) {}
   
   return projects;
 };

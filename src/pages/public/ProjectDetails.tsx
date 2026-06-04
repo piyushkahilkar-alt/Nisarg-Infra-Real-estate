@@ -436,7 +436,7 @@ export default function ProjectDetails() {
                {relatedProjects.map((rp) => (
                   <Link key={rp.id} to={`/projects/${rp.id}`} className="block bg-white rounded-2xl overflow-hidden border border-[#E2E8F0] shadow-sm hover:shadow-xl transition-all duration-300 group">
                     <div className="h-48 overflow-hidden relative">
-                       <img src={rp.imageURL ? rp.imageURL.split(',')[0].trim() : ''} alt={rp.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                       <img src={rp.imageURL ? rp.imageURL.split(',')[0].trim() : ''} alt={rp.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     </div>
                     <div className="p-5 bg-white">
                        <h3 className="font-extrabold text-lg text-[#1E293B] group-hover:text-[#137A35] transition-colors">{rp.title}</h3>
