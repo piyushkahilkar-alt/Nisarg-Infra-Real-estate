@@ -51,10 +51,33 @@ function GoogleMapContent({ locationText, coordinates, apiKey, title }: GoogleMa
   }, [coordinates, locationText, isLoaded]);
 
   if (loadError) {
+    const iframeSrc = `https://maps.google.com/maps?q=${coordinates ? `${coordinates.lat},${coordinates.lng}` : encodeURIComponent(locationText)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+    const directionsUrl = coordinates 
+      ? `https://www.google.com/maps/dir/?api=1&destination=${coordinates.lat},${coordinates.lng}`
+      : `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(locationText)}`;
+    
     return (
-      <div className="w-full h-[400px] bg-[#F8FAFC] rounded-2xl flex flex-col items-center justify-center p-6 text-center border-2 border-dashed border-[#CBD5E1]">
-        <p className="text-[#EF4444] font-bold">Error loading Google Maps</p>
-        <p className="text-sm text-[#64748B] mt-2">Please check your API key configuration.</p>
+      <div className="w-full flex flex-col gap-4">
+        <div className="w-full h-[400px] rounded-2xl overflow-hidden border border-[#E2E8F0] shadow-sm relative">
+           <iframe 
+             title={title || "Google Map"}
+             width="100%" 
+             height="100%" 
+             style={{ border: 0 }} 
+             loading="lazy" 
+             allowFullScreen 
+             src={iframeSrc}
+           ></iframe>
+        </div>
+        <a 
+          href={directionsUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="self-start flex items-center justify-center gap-2 bg-[#E2E8F0] text-[#1E293B] hover:bg-[#CBD5E1] transition-colors py-2 px-4 rounded-lg font-bold text-sm"
+        >
+          <Navigation className="w-4 h-4" />
+          Get Directions
+        </a>
       </div>
     );
   }
@@ -90,7 +113,7 @@ function GoogleMapContent({ locationText, coordinates, apiKey, title }: GoogleMa
               onClick={() => setIsInfoWindowOpen(true)}
             >
               {isInfoWindowOpen && title && (
-                <InfoWindow onCloseClick={() => setIsInfoWindowOpen(false)}>
+                <InfoWindow position={markerPos} onCloseClick={() => setIsInfoWindowOpen(false)}>
                   <div className="p-1 max-w-[200px]">
                     <h3 className="font-bold text-[#1E293B] text-sm">{title}</h3>
                     <p className="text-xs text-[#64748B] mt-1">{locationText}</p>
@@ -118,11 +141,36 @@ export function GoogleMapIntegration({ locationText, coordinates, title }: Googl
   // Using the provided API key as a fallback. Best practice is to set VITE_GOOGLE_MAPS_API_KEY in the platform secrets.
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || import.meta.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || 'AIzaSyAoclCUnHDPEo8JgcifEOlnK3wo08pQSVQ';
   
-  if (!apiKey) {
+  const isDev = typeof window !== 'undefined' && window.location.hostname.includes('run.app');
+  
+  if (!apiKey || isDev) {
+    const iframeSrc = `https://maps.google.com/maps?q=${coordinates ? `${coordinates.lat},${coordinates.lng}` : encodeURIComponent(locationText)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+    const directionsUrl = coordinates 
+      ? `https://www.google.com/maps/dir/?api=1&destination=${coordinates.lat},${coordinates.lng}`
+      : `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(locationText)}`;
+    
     return (
-      <div className="w-full h-[400px] bg-[#E2E8F0] rounded-2xl flex flex-col items-center justify-center border-2 border-dashed border-[#CBD5E1] p-6 text-center">
-        <p className="text-[#64748B] font-medium text-lg">Google Maps API Key Missing</p>
-        <p className="text-sm text-[#94A3B8] mt-2">Please add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to your environment variables to view the map.</p>
+      <div className="w-full flex flex-col gap-4">
+        <div className="w-full h-[400px] rounded-2xl overflow-hidden border border-[#E2E8F0] shadow-sm relative">
+           <iframe 
+             title={title || "Google Map"}
+             width="100%" 
+             height="100%" 
+             style={{ border: 0 }} 
+             loading="lazy" 
+             allowFullScreen 
+             src={iframeSrc}
+           ></iframe>
+        </div>
+        <a 
+          href={directionsUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="self-start flex items-center justify-center gap-2 bg-[#E2E8F0] text-[#1E293B] hover:bg-[#CBD5E1] transition-colors py-2 px-4 rounded-lg font-bold text-sm"
+        >
+          <Navigation className="w-4 h-4" />
+          Get Directions
+        </a>
       </div>
     );
   }

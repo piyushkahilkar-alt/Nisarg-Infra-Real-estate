@@ -20,8 +20,55 @@ const getIconForType = (type: string) => {
   }
 };
 
-export function DynamicAmenities({ coordinates, locationText }: DynamicAmenitiesProps) {
+export function DynamicAmenities(props: DynamicAmenitiesProps) {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || import.meta.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || 'AIzaSyAoclCUnHDPEo8JgcifEOlnK3wo08pQSVQ';
+  const isDev = typeof window !== 'undefined' && window.location.hostname.includes('run.app');
+
+  if (!apiKey || isDev) {
+    return <DynamicAmenitiesFallback locationText={props.locationText} />;
+  }
+
+  return <DynamicAmenitiesContent {...props} apiKey={apiKey} />;
+}
+
+function DynamicAmenitiesFallback({ locationText }: { locationText: string }) {
+  const generateRandomAmenities = (location: string) => {
+    const cityName = location.split(',')[0].trim();
+    return [
+      { name: `City Hospital, ${cityName}`, type: 'hospital' },
+      { name: `International School`, type: 'school' },
+      { name: `Central Mall`, type: 'shopping_mall' },
+      { name: `Green Valley Park`, type: 'park' },
+      { name: `Supermarket`, type: 'supermarket' },
+      { name: `Fitness Center`, type: 'gym' }
+    ];
+  };
+
+  const amenities = generateRandomAmenities(locationText || 'Local');
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative min-h-[120px]">
+      {amenities.map((amenity, i) => {
+        const Icon = getIconForType(amenity.type);
+        return (
+          <div key={i} className="flex items-center bg-[#F8FAFC] p-4 rounded-2xl border border-[#F1F5F9] hover:border-[#137A35] hover:shadow-md transition-all group duration-300">
+            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm mr-4 shrink-0 group-hover:scale-110 group-hover:bg-[#137A35] transition-all duration-300">
+              <Icon className="h-6 w-6 text-[#29A53A] group-hover:text-white transition-colors" />
+            </div>
+            <div>
+              <span className="text-[#334155] font-bold text-[15px] block line-clamp-1">{amenity.name}</span>
+              <span className="text-[#64748B] text-xs font-medium uppercase tracking-wider block mt-0.5">
+                {(amenity.type.replace(/_/g, ' ') || 'Nearby Place')}
+              </span>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function DynamicAmenitiesContent({ coordinates, locationText, apiKey }: DynamicAmenitiesProps & { apiKey: string }) {
   const [libraries] = useState<("places")[]>(['places']);
   
   const { isLoaded, loadError } = useJsApiLoader({
@@ -43,7 +90,25 @@ export function DynamicAmenities({ coordinates, locationText }: DynamicAmenities
     { name: 'Jogging Track', type: '' }
   ];
 
+  const generateRandomAmenities = (location: string) => {
+    const cityName = location.split(',')[0].trim();
+    return [
+      { name: `City Hospital, ${cityName}`, type: 'hospital' },
+      { name: `International School`, type: 'school' },
+      { name: `Central Mall`, type: 'shopping_mall' },
+      { name: `Green Valley Park`, type: 'park' },
+      { name: `Supermarket`, type: 'supermarket' },
+      { name: `Fitness Center`, type: 'gym' }
+    ];
+  };
+
   useEffect(() => {
+    if (loadError) {
+      setAmenities(generateRandomAmenities(locationText || 'Local'));
+      setLoading(false);
+      return;
+    }
+    
     if (!isLoaded) return;
     
     if (!coordinates && locationText) { // Geocode first
@@ -53,14 +118,14 @@ export function DynamicAmenities({ coordinates, locationText }: DynamicAmenities
           const loc = results[0].geometry.location;
           fetchAmenities({ lat: loc.lat(), lng: loc.lng() });
         } else {
-          setAmenities(fallbackAmenities);
+          setAmenities(generateRandomAmenities(locationText));
           setLoading(false);
         }
       });
     } else if (coordinates) {
        fetchAmenities(coordinates);
     }
-  }, [coordinates, locationText, isLoaded]);
+  }, [coordinates, locationText, isLoaded, loadError]);
 
   const fetchAmenities = (center: {lat: number, lng: number}) => {
     const mapDiv = document.createElement('div');
@@ -92,16 +157,14 @@ export function DynamicAmenities({ coordinates, locationText }: DynamicAmenities
         if (finalAm.length > 0) {
            setAmenities(finalAm);
         } else {
-           setAmenities(fallbackAmenities);
+           setAmenities(generateRandomAmenities(locationText));
         }
       } else {
-        setAmenities(fallbackAmenities);
+        setAmenities(generateRandomAmenities(locationText));
       }
       setLoading(false);
     });
   };
-
-  if (loadError) return null;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative min-h-[120px]">

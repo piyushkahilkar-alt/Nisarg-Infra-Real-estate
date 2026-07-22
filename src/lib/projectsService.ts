@@ -32,8 +32,8 @@ export const fetchProjects = async (): Promise<Project[]> => {
 
   // Check sessionStorage next
   try {
-    const sessionCache = sessionStorage.getItem('projectsData');
-    const sessionTime = sessionStorage.getItem('projectsFetchTime');
+    const sessionCache = sessionStorage.getItem('projectsData_v2');
+    const sessionTime = sessionStorage.getItem('projectsFetchTime_v2');
     if (sessionCache && sessionTime && (Date.now() - parseInt(sessionTime) < CACHE_DURATION)) {
        cachedProjects = JSON.parse(sessionCache);
        lastFetchTime = parseInt(sessionTime);
@@ -52,7 +52,22 @@ export const fetchProjects = async (): Promise<Project[]> => {
     throw new Error('Invalid response from Google Sheets');
   }
 
-  const projects = data.data.map((item: any, index: number) => ({
+  const newProject: Project = {
+    id: 'sai-villa-9',
+    title: 'Sai Villa-9',
+    location: 'Manish nagar, nagpur',
+    price: '45,00,000',
+    status: 'New Launch',
+    description: 'Premium 2 BHK & 3 BHK apartments in Manish Nagar, Nagpur.',
+    imageURL: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80',
+    brochureURL: '',
+    videoURL: 'https://res.cloudinary.com/ddqhusxnb/video/upload/v1784625975/Reel_02_l8cdyu.mp4',
+    area: '2 BHK & 3 BHK',
+    latitude: 21.0963, // Approx for Manish Nagar, Nagpur
+    longitude: 79.0664,
+  };
+
+  const fetchedProjects = data.data.map((item: any, index: number) => ({
     id: item.id || `project-${index}`,
     title: item.Title || '',
     location: item.Location || '',
@@ -67,12 +82,14 @@ export const fetchProjects = async (): Promise<Project[]> => {
     longitude: item.Longitude ? parseFloat(item.Longitude) : undefined
   }));
 
+  const projects = [newProject, ...fetchedProjects];
+
   cachedProjects = projects;
   lastFetchTime = Date.now();
   
   try {
-     sessionStorage.setItem('projectsData', JSON.stringify(projects));
-     sessionStorage.setItem('projectsFetchTime', lastFetchTime.toString());
+     sessionStorage.setItem('projectsData_v2', JSON.stringify(projects));
+     sessionStorage.setItem('projectsFetchTime_v2', lastFetchTime.toString());
   } catch(e) {}
   
   return projects;
